@@ -1,3 +1,9 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Mon Apr  3 15:24:51 2023
+@author: Rajdeep
+"""
+
 from flask import Flask, render_template, flash, request, url_for, redirect, session
 # from flask_admin import Admin
 from Models._user import User, db, connect_to_db
