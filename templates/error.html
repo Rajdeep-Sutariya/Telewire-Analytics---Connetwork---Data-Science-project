@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Login 10</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/style.css')}}">
+    <link rel="stylesheet" href="{{ url_for('static',filename='assets/css/main.css')}}" />
+
+</head>
+
+<body class="img js-fullheight" style="background-image: url(images/bg.jpg);">
+    <header id="header" class="alt">
+        <h1><a href="index.html">Telewire Analytics - Connetworks</a> </h1>
+        <nav id="nav">
+            <ul>
+                <li><a href="{{ url_for('index') }}">Home</a></li>
+                <li>
+                    <a href="{{ url_for('contact') }}">Contact</a>
+                </li>
+                <li><a href="{{ url_for('login') }}" active class="button">Sign In</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="ftco-section" style="padding: 3em 0;">
+
+        <h2>404 <br> Page Not Found <br>
+            We’re sorry, the page you have looked for does not exist in our website! Maybe go to our home page or try to use a search?
+            Go Back To Home </h2>
+        <h3>{{e}}</h3>
+    </section>
+
+    <!--footer-->
+    <footer id="footer" style="padding: 2em 0 1em 0 !important;">
+            <ul class="icons">
+                <li><a href="#" class="icon brands fa-twitter"><span class="label">Twitter</span></a></li>
+                <li><a href="#" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a></li>
+                <li><a href="#" class="icon brands fa-instagram"><span class="label">Instagram</span></a></li>
+                <li><a href="#" class="icon brands fa-github"><span class="label">Github</span></a></li>
+                <li><a href="#" class="icon brands fa-dribbble"><span class="label">Dribbble</span></a></li>
+                <li><a href="#" class="icon brands fa-google-plus"><span class="label">Google+</span></a></li>
+            </ul>
+            <ul class="copyright">
+                <li>&copy; 2023 Telewire Analytics, Inc. All rights reserved.</li>
+            </ul>
+        </footer>
+    
+    <script src="{{ url_for('static',filename= 'js/jquery.min.js')}}"></script>
+    <script src="{{ url_for('static',filename= 'js/popper.js')}}"></script>
+    <script src="{{ url_for('static',filename= 'js/bootstrap.min.js')}}"></script>
+    <script src="{{ url_for('static',filename= 'js/main.js')}}"></script>
+
+</body>
+
+</html>
+
+
+

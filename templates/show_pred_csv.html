@@ -1,0 +1,128 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <title>Telewire Analytics</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="stylesheet" href="{{ url_for('static',filename='assets/css/main.css')}}" />
+</head>
+
+<body class="is-preload">
+    <div id="page-wrapper">
+
+        <!-- Header -->
+        <header id="header">
+            <h1><a href="{{ url_for('index') }}">Telewire Analytics - Connetwork</a></h1>
+            <nav id="nav">
+                <ul>
+                    <li><a href="{{ url_for('dashboard') }}">Home</a></li>
+                    <li><a href="{{ url_for('prediction_table') }}">Predict Anomaly</a></li>
+                    <li><a href="{{ url_for('upload_csv') }}" class="button">Add Dataset</a></li>
+                    <li><a href="{{ url_for('login') }}">Logout</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <!-- Main -->
+        <section id="main" class="container">
+            <header>
+                <h2>Telewire Analytics Anomaly Prediction</h2>
+                <p>Welcome to the prediction page of Telewire Analytics- our anomaly prediction system that helps you detect and anticipate potential anomalies in your data.</p>
+            </header>
+            <div class="row">
+                <div class="col-12">
+
+                    <!-- Table -->
+                    <section class="box">
+                        <h3>Anomaly Prediction</h3>
+
+                        <h4>Uploaded CSV file</h4>
+                        <div style="width: 100%; overflow-x: auto; height: 400px ; overflow-y: auto;">
+                            <div class="table-wrapper">
+
+                                <table class="ruler" id="mtable">
+                                    <thead>
+                                        <tr>
+                                            <th><b>0</b></th>
+                                            <th><b>Predict value</b></th>
+                                            {% for key in column[0].keys() %}
+                                            <th><b>{{ key }}</b></th>
+                                            {% endfor %}
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for index, row in enumerate(column) %}
+                                        <tr>
+                                            <td><b>{{ index + 1 }}</b></td>
+                                            <td><b>{% if is_unsual[index] %} Unusual {% else %} Usual {% endif %}</b></td>
+                                            {% for value in row.values() %}
+                                            <td><b>{{ value }}</b></td>
+                                            {% endfor %}
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+
+                                <br>
+                                <div id="table-info"></div>
+                            </div>
+                        </div>
+                    </section>
+
+                </div>
+            </div>
+
+        </section>
+
+        <!-- Footer -->
+        <footer id="footer" style="padding: 2em 0 1em 0 !important;">
+            <ul class="icons">
+                <li><a href="#" class="icon brands fa-twitter"><span class="label">Twitter</span></a></li>
+                <li><a href="#" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a></li>
+                <li><a href="#" class="icon brands fa-instagram"><span class="label">Instagram</span></a></li>
+                <li><a href="#" class="icon brands fa-github"><span class="label">Github</span></a></li>
+                <li><a href="#" class="icon brands fa-dribbble"><span class="label">Dribbble</span></a></li>
+                <li><a href="#" class="icon brands fa-google-plus"><span class="label">Google+</span></a></li>
+            </ul>
+            <ul class="copyright">
+                <li>&copy; 2023 Telewire Analytics, Inc. All rights reserved.</li>
+            </ul>
+        </footer>
+
+    </div>
+    <script>
+        const table = document.getElementById("mtable");
+        const numRows = table.getElementsByTagName("tbody")[0].getElementsByTagName("tr").length;
+        const info = document.getElementById("table-info");
+
+        if (numRows === 0) {
+            info.innerHTML = "Showing 0 of 0 entries";
+        } else {
+            info.innerHTML = `Showing ${numRows} of ${numRows} entries`;
+        }
+
+    </script>
+    <!-- Scripts -->
+    <script src="{{ url_for('static',filename='assets/js/jquery.min.js')}}"></script>
+    <script src="{{ url_for('static',filename='assets/js/jquery.dropotron.min.js')}}"></script>
+    <script src="{{ url_for('static',filename='assets/js/jquery.scrollex.min.js')}}"></script>
+    <script src="{{ url_for('static',filename='assets/js/browser.min.js')}}"></script>
+    <script src="{{ url_for('static',filename='assets/js/breakpoints.min.js')}}"></script>
+    <script src="{{ url_for('static',filename='assets/js/util.js')}}"></script>
+    <script src="{{ url_for('static',filename='assets/js/main.js')}}"></script>
+
+</body>
+
+</html>
+
+
+
+
+<!-- Welcome to the prediction page of Telewire - our anomaly prediction system that helps you detect and anticipate potential anomalies in your data. With Telewire, you can gain insights into potential issues before they occur and take proactive measures to mitigate their impact. Our advanced machine learning algorithms analyze your data in real-time to detect abnormal behavior and predict potential anomalies, allowing you to stay ahead of the curve and keep your operations running smoothly. Explore our predictions and stay informed about your data with Telewire. -->
+
+<!-- <tr>
+		<td>Timestamp:</td>
+		<td>Enter the timestamp for which you want to analyze data.</td>
+		<td><input type="number" name="Timestamp" id="Timestamp" required></td>
+	</tr> -->

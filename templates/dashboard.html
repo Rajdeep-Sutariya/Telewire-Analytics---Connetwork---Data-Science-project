@@ -1,0 +1,98 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <title>Telewire Analytics</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="stylesheet" href="{{ url_for('static',filename='assets/css/main.css')}}" />
+</head>
+
+<body class="is-preload">
+    <div id="page-wrapper">
+
+        <!-- Header -->
+        <header id="header">
+            <h1><a href="{{ url_for('index') }}">Telewire Analytics - Connetwork</a></h1>
+            <nav id="nav">
+                <ul>
+                    <li><a href="{{ url_for('dashboard') }}">Home</a></li>
+                    <li><a href="{{ url_for('prediction_table') }}">Predict Anomaly</a></li>
+                    <li><a href="{{ url_for('upload_csv') }}" class="button">Add Dataset</a></li>
+                    <li><a href="{{ url_for('login') }}">Logout</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <!-- Main -->
+        <section id="main" class="container">
+            <header>
+                <h2>List of uploaded CSV files</h2>
+            </header>
+            <div class="row">
+                <div class="col-12">
+
+                    <!-- Table -->
+                    <section class="box">
+                        <h3>CSV files</h3>
+
+<!--                        <h4>Default</h4>-->
+                        <div class="table-wrapper">
+                            <table class="tb" style="width: 100%" class="ruler" id="mtable">
+                                <thead>
+                                    <tr>
+                                        <th>No.</th>
+                                        <th>File Name</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for index, file in enumerate(files) %}
+                                    <tr>
+                                        <td>{{ index + 1 }}</td>
+                                        <td class="newr" type="filename" name="filename">{{ file }}</td>
+                                        <td><a class="viewdata" href="/show_csv/{{file}}">View Data</a></td>
+                                        <td><a class="viewdata" href="/show_pred_csv/{{file}}">Prediction</a></td>
+                                        <td><a class="viewdata" href="/analysis/{{file}}">Analysis</a>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+
+                </div>
+            </div>
+
+        </section>
+
+        <!-- Footer -->
+        <footer id="footer" style="padding: 2em 0 1em 0 !important;">
+            <ul class="icons">
+                <li><a href="#" class="icon brands fa-twitter"><span class="label">Twitter</span></a></li>
+                <li><a href="#" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a></li>
+                <li><a href="#" class="icon brands fa-instagram"><span class="label">Instagram</span></a></li>
+                <li><a href="#" class="icon brands fa-github"><span class="label">Github</span></a></li>
+                <li><a href="#" class="icon brands fa-dribbble"><span class="label">Dribbble</span></a></li>
+                <li><a href="#" class="icon brands fa-google-plus"><span class="label">Google+</span></a></li>
+            </ul>
+            <ul class="copyright">
+                <li>&copy; 2023 Telewire Analytics, Inc. All rights reserved.</li>
+            </ul>
+        </footer>
+    </div>
+
+
+    <!-- Scripts -->
+    <script src="{{ url_for('static',filename='assets/js/jquery.min.js')}}"></script>
+    <script src="{{ url_for('static',filename='assets/js/jquery.dropotron.min.js')}}"></script>
+    <script src="{{ url_for('static',filename='assets/js/jquery.scrollex.min.js')}}"></script>
+    <script src="{{ url_for('static',filename='assets/js/browser.min.js')}}"></script>
+    <script src="{{ url_for('static',filename='assets/js/breakpoints.min.js')}}"></script>
+    <script src="{{ url_for('static',filename='assets/js/util.js')}}"></script>
+    <script src="{{ url_for('static',filename='assets/js/main.js')}}"></script>
+
+</body>
+
+</html>

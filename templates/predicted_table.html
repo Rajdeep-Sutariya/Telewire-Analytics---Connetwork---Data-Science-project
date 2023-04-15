@@ -1,0 +1,170 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <title>Telewire Analytics</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="stylesheet" href="{{ url_for('static',filename='assets/css/main.css')}}" />
+</head>
+
+<body class="is-preload">
+    <div id="page-wrapper">
+
+        <!-- Header -->
+        <header id="header">
+            <h1><a href="{{ url_for('index') }}">Telewire Analytics - Connetwork</a></h1>
+            <nav id="nav">
+                <ul>
+                    <li><a href="{{ url_for('dashboard') }}">Home</a></li>
+                    <li><a href="{{ url_for('prediction_table') }}">Predict Anomaly</a></li>
+                    <li><a href="{{ url_for('upload_csv') }}" class="button">Add Dataset</a></li>
+                    <li><a href="{{ url_for('login') }}">Logout</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <!-- Main -->
+        <section id="main" class="container">
+            <header>
+                <h2>Telewire Analytics Anomaly Prediction</h2>
+                <p>Welcome to the prediction page of Telewire Analytics- our anomaly prediction system that helps you detect and anticipate potential anomalies in your data.</p>
+            </header>
+            <div class="row">
+                <div class="col-12">
+
+                    <!-- Table -->
+                    <section class="box">
+                        <h3>Anomaly Prediction</h3>
+
+                        <h4>Please fill in the following information to receive a prediction based on your data:</h4>
+                        <div class="table-wrapper">
+
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th><b>Name</b></th>
+                                        <th><b>Description</b></th>
+                                        <th><b>Filled in Values</b></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><b>CellName:</b></td>
+                                        <td><b>Select the name of the cell you want to analyze.</b></td>
+                                        <td>{{ received_value.iloc[0,0] }}</td>
+                                    </tr>
+
+                                    <tr>
+                                        <td><b>Time:</b></td>
+                                        <td><b>Enter the timestamp for which you want to analyze data.</b></td>
+                                        <td>{{ received_value.iloc[0,1] }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>PRB Usage UL:</b></td>
+                                        <td><b>Enter the PRB Usage UL value.</b></td>
+                                        <td>{{ received_value.iloc[0,2] }}</td>
+                                    </tr>
+
+
+                                    <tr>
+                                        <td><b>PRB Usage DL:</b></td>
+                                        <td><b>Enter the PRB Usage DL value.</b></td>
+                                        <td>{{ received_value.iloc[0,3] }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Mean Throughput DL:</b></td>
+                                        <td><b>Enter the mean throughput DL value.</b></td>
+                                        <td>{{ received_value.iloc[0,4] }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Mean Throughput UL:</b></td>
+                                        <td><b>Enter the mean throughput UL value.</b></td>
+                                        <td>{{ received_value.iloc[0,5] }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Max Throughput DL:</b></td>
+                                        <td><b>Enter the maximum throughput DL value.</b></td>
+                                        <td>{{ received_value.iloc[0,6] }} </td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Max Throughput UL:</b></td>
+                                        <td><b>Enter the maximum throughput UL value.</b></td>
+                                        <td>{{ received_value.iloc[0,7] }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Mean UE DL:</b></td>
+                                        <td><b>Enter the mean UE DL value.</b></td>
+                                        <td>{{ received_value.iloc[0,8] }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Mean UE UL:</b></td>
+                                        <td><b>Enter the mean UE UL value.</b></td>
+                                        <td>{{ received_value.iloc[0,9] }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Max UE DL:</b></td>
+                                        <td><b>Enter the maximum UE DL value.</b></td>
+                                        <td>{{ received_value.iloc[0,10] }} </td>
+
+                                    </tr>
+                                    <tr>
+                                        <td><b>Max UE UL:</b></td>
+                                        <td><b>Enter the maximum UE UL value.</b></td>
+                                        <td>{{ received_value.iloc[0,11] }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Max UE UL/DL:</b></td>
+                                        <td><b>Enter the maximum UE UL/DL value.</b></td>
+                                        <td>{{ received_value.iloc[0,12] }} </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="3" align="center" style="font-weight: 1000;font-size: 30px;"> Prediction: {% if predictions == 1 %} Unusual - 1 {% else %} Usual - 0 {% endif %}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="3" align="center" style="font-weight: 1000;font-size: 30px;">
+                                            {% if predictions == 1 %} <p style="text-align: center; padding: 15px; margin: auto; line-height:1.5em;"><b>Change the configuration of the network at the cell tower and properly utilize the resources.</b></p> {% else %} <p style="text-align: center; padding: 15px; margin: auto; line-height:1.5em;"><b>You do not need to change the configuration of the network at the cell tower. </b></p>{% endif %}
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </section>
+
+                </div>
+            </div>
+
+        </section>
+
+        <!-- Footer -->
+        <footer id="footer" style="padding: 2em 0 1em 0 !important;">
+            <ul class="icons">
+                <li><a href="#" class="icon brands fa-twitter"><span class="label">Twitter</span></a></li>
+                <li><a href="#" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a></li>
+                <li><a href="#" class="icon brands fa-instagram"><span class="label">Instagram</span></a></li>
+                <li><a href="#" class="icon brands fa-github"><span class="label">Github</span></a></li>
+                <li><a href="#" class="icon brands fa-dribbble"><span class="label">Dribbble</span></a></li>
+                <li><a href="#" class="icon brands fa-google-plus"><span class="label">Google+</span></a></li>
+            </ul>
+            <ul class="copyright">
+                <li>&copy; 2023 Telewire Analytics, Inc. All rights reserved.</li>
+            </ul>
+        </footer>
+
+    </div>
+
+    <!-- Scripts -->
+    <script src="{{ url_for('static',filename='assets/js/jquery.min.js')}}"></script>
+    <script src="{{ url_for('static',filename='assets/js/jquery.dropotron.min.js')}}"></script>
+    <script src="{{ url_for('static',filename='assets/js/jquery.scrollex.min.js')}}"></script>
+    <script src="{{ url_for('static',filename='assets/js/browser.min.js')}}"></script>
+    <script src="{{ url_for('static',filename='assets/js/breakpoints.min.js')}}"></script>
+    <script src="{{ url_for('static',filename='assets/js/util.js')}}"></script>
+    <script src="{{ url_for('static',filename='assets/js/main.js')}}"></script>
+
+</body>
+
+</html>
+

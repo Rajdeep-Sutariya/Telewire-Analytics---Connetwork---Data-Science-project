@@ -1,0 +1,116 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <title>Telewire Analytics</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="stylesheet" href="{{ url_for('static',filename='assets/css/main.css')}}" />
+</head>
+
+<body class="is-preload">
+    <div id="page-wrapper">
+
+        <!-- Header -->
+        <header id="header">
+            <h1><a href="{{ url_for('index') }}">Telewire Analytics - Connetwork</a></h1>
+            <nav id="nav">
+                <ul>
+                    <li><a href="{{ url_for('dashboard') }}">Home</a></li>
+                    <li><a href="{{ url_for('prediction_table') }}">Predict Anomaly</a></li>
+                    <li><a href="{{ url_for('upload_csv') }}" class="button">Add Dataset</a></li>
+                    <li><a href="{{ url_for('login') }}">Logout</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <!-- Main -->
+        <section id="main" class="container">
+            <header>
+                <h2>Telewire Analytics </h2>
+                <p>View uploaded CSV file</p>
+            </header>
+            <div class="row">
+                <div class="col-12">
+
+                    <!-- Table -->
+                    <section class="box">
+                        <h3>Dataset</h3>
+
+                        <h4>Uploaded CSV file</h4>
+                        <div style="width: 100%; overflow-x: auto; height: 400px ; overflow-y: auto;">
+                            
+                            <div class="table-wrapper">
+
+                                <table class="ruler" id="mtable">
+                                    <thead>
+                                        <tr>
+                                            <th><b>0</b></th>
+                                            {% for key in column[0].keys() %}
+                                            <th><b>{{ key }}</b></th>
+                                            {% endfor %}
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for index, row in enumerate(column) %}
+                                        <tr>
+                                            <td><b>{{ index + 1 }}</b></td>
+                                            {% for value in row.values() %}
+                                            <td><b>{{ value }}</b></td>
+                                            {% endfor %}
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <br>
+                        <div id="table-info"></div>
+                    </section>
+
+                </div>
+            </div>
+
+        </section>
+
+        <!-- Footer -->
+        <footer id="footer" style="padding: 2em 0 1em 0 !important;">
+            <ul class="icons">
+                <li><a href="#" class="icon brands fa-twitter"><span class="label">Twitter</span></a></li>
+                <li><a href="#" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a></li>
+                <li><a href="#" class="icon brands fa-instagram"><span class="label">Instagram</span></a></li>
+                <li><a href="#" class="icon brands fa-github"><span class="label">Github</span></a></li>
+                <li><a href="#" class="icon brands fa-dribbble"><span class="label">Dribbble</span></a></li>
+                <li><a href="#" class="icon brands fa-google-plus"><span class="label">Google+</span></a></li>
+            </ul>
+            <ul class="copyright">
+                <li>&copy; 2023 Telewire Analytics, Inc. All rights reserved.</li>
+            </ul>
+        </footer>
+
+    </div>
+    <script>
+        const table = document.getElementById("mtable");
+        const numRows = table.getElementsByTagName("tbody")[0].getElementsByTagName("tr").length;
+        const info = document.getElementById("table-info");
+
+        if (numRows === 0) {
+            info.innerHTML = "Showing 0 of 0 entries";
+        } else {
+            info.innerHTML = `Showing ${numRows} of ${numRows} entries`;
+        }
+
+    </script>
+    <!-- Scripts -->
+    <script src="{{ url_for('static',filename='assets/js/jquery.min.js')}}"></script>
+    <script src="{{ url_for('static',filename='assets/js/jquery.dropotron.min.js')}}"></script>
+    <script src="{{ url_for('static',filename='assets/js/jquery.scrollex.min.js')}}"></script>
+    <script src="{{ url_for('static',filename='assets/js/browser.min.js')}}"></script>
+    <script src="{{ url_for('static',filename='assets/js/breakpoints.min.js')}}"></script>
+    <script src="{{ url_for('static',filename='assets/js/util.js')}}"></script>
+    <script src="{{ url_for('static',filename='assets/js/main.js')}}"></script>
+
+</body>
+
+</html>
+

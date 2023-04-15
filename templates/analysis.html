@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Chart Example</title>
+    <!--    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>-->
+    <script src="{{ url_for('static', filename='js/Chart.min.js') }}"></script>
+	<link rel="stylesheet" href="{{ url_for('static',filename='assets/css/main.css')}}" />
+
+
+    <!--    <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>-->
+</head>
+
+<body> 
+    <div id="page-wrapper">
+        <!-- Header -->
+        <header id="header">
+            <h1><a href="{{ url_for('index') }}">Telewire Analytics - Connetwork</a></h1>
+            <nav id="nav">
+                <ul>
+                    <li><a href="{{ url_for('dashboard') }}">Home</a></li>
+                    <li><a href="{{ url_for('prediction_table') }}">Predict Anomaly</a></li>
+                    <li><a href="{{ url_for('upload_csv') }}" class="button">Add Dataset</a></li>
+                    <li><a href="{{ url_for('login') }}">Logout</a></li>
+
+                </ul>
+            </nav>
+        </header>
+        
+        <section id="main" class="container">
+            <header>
+                <h2>Analysis of Prediction</h2>
+            </header>
+            <table style="border-collapse: separate; border-spacing: 0 15px;">
+                <tr>
+                    <td>
+                        <h4 ><b>Shape of uploaded dataset ("rows", "columns"): </b></h4>
+                    </td>
+                    <td>
+                        <h4 style="text-align: center;"><b>{{ df_size }}</b></h4>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <h4 ><b>Accuracy Score of the model: </b></h4>
+                    </td>
+                    <td>
+                        <h4 style="text-align: center;"><b>0.979</b></h4>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="align-items: center;">
+                        <h4><b>Bar chart </b></h4>
+                        <!-- bar chart canvas element -->
+                        <canvas id="myChart"></canvas>
+                        <p id="caption" style="text-align: center;"><b>Usual vs Unusual predictions</b></p>
+                        <script>
+                            var chartData = {
+                                labels: ["Usual", "Unusual"],
+                                datasets: [{
+//                                    label: ['Usual', 'Unusual'] ,
+                                    backgroundColor: ["#FFC0CB", "#ADD8E6"],
+                                    data: [{% for value in values %} '{{value}}', {% endfor %}]
+                                }]
+                            }
+
+                            // get chart canvas
+                            var ctx = document.getElementById("myChart").getContext("2d");
+
+                            // create the chart using the chart canvas
+                            var myChart = new Chart(ctx, {
+                                type: 'bar',
+                                data: chartData,
+                                options: {
+                                    scales: {
+                                        yAxes: [{
+                                            ticks: {
+                                                beginAtZero: true
+                                            }
+                                        }]
+                                    },
+                                    legend: {
+                                        display:false
+                                    }
+                                }
+                            });
+
+                        </script>
+                    </td>
+                </tr>
+                <tr>      
+                    <td colspan="2">
+                        <h4><b>Pie chart </b></h4>
+                        <canvas id="myChart1"></canvas><br>
+                        <p id="caption" style="text-align: center;"><b>Usual vs Unusual predictions</b></p>
+                        <script>
+                            var chartData = {
+                                labels: [{% for label in labels %} '{{label}}', {% endfor %}],
+                                datasets: [{
+                                    label: 'Pie chart of is_unusual',
+                                    backgroundColor: ["#FFC0CB", "#ADD8E6"],
+                                    data: [{% for value in values %} '{{value}}', {% endfor %}],
+                                    spanGaps: false
+                                }]
+                            }
+
+                            // get chart canvas
+                            var ctx = document.getElementById("myChart1").getContext("2d");
+
+                            // create the chart using the chart canvas
+                            var myChart1 = new Chart(ctx, {
+                                type: 'pie',
+                                data: chartData,
+                            });
+
+                        </script>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <h4><b>Bar chart </b></h4>
+                        <canvas id="myChart2"></canvas>
+                        <p id="caption" style="text-align: center;"><b>Each CellName's Usual vs Unusual predictions</b></p>
+                        <script>
+                            var ctx = document.getElementById('myChart2').getContext('2d');
+                            var myChart2 = new Chart(ctx, {
+                                type: 'bar',
+                                data: {
+                                    labels: {{ cellnames_labels|tojson }},
+                                    datasets: [{
+                                        label: 'Usual',
+                                        data: {{ cellnames_data0|tojson }},
+                                        backgroundColor: 'rgb(0, 211, 16)',
+                                        borderColor: 'rgb(9, 38, 11)',
+                                        borderWidth: 1
+                                    }, {
+                                        label: 'Unusual',
+                                        data: {{ cellnames_data1|tojson }},
+                                        backgroundColor: 'rgb(229, 0, 48)',
+                                        borderColor: 'rgb(62, 11, 22)',
+                                        borderWidth: 1
+                                    }]
+                                },
+                                options: {
+                                    scales: {
+                                        yAxes: [{
+                                            ticks: {
+                                                beginAtZero: true
+                                            }
+                                        }]
+                                    }
+                                }
+                            });
+                        </script>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <h4><b>Line chart </b></h4>
+                        <canvas id="myChart3"></canvas>
+                        <p id="caption" style="text-align: center;"><b>Time vs Usual & Unusual predictions</b> </p>
+                        <script>
+                            var ctx = document.getElementById('myChart3').getContext('2d');
+                            var myChart3 = new Chart(ctx, {
+                                type: 'line',
+                                data: {
+                                    labels: {{ time_labels|tojson }},
+                                    datasets: [{
+                                        label: 'Usual',
+                                        data: {{ time_data0|tojson }},
+                                        backgroundColor: 'rgb(0, 211, 16)',
+                                        borderColor: 'rgb(9, 38, 11)',
+                                        borderWidth: 1
+                                    }, {
+                                        label: 'Unusual',
+                                        data: {{ time_data1|tojson }},
+                                        backgroundColor: 'rgb(229, 0, 48)',
+                                        borderColor: 'rgb(62, 11, 22)',
+                                        borderWidth: 1
+                                    }]
+                                },
+                                options: {
+                                    scales: {
+                                        yAxes: [{
+                                            ticks: {
+                                                beginAtZero: true
+                                            }
+                                        }]
+                                    }
+                                }
+                            });
+                        </script>
+                    </td>
+                </tr>
+            </table>
+        </section>
+        
+        <!-- Footer -->
+        <footer id="footer" style="padding: 2em 0 1em 0 !important;">
+            <ul class="icons">
+                <li><a href="#" class="icon brands fa-twitter"><span class="label">Twitter</span></a></li>
+                <li><a href="#" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a></li>
+                <li><a href="#" class="icon brands fa-instagram"><span class="label">Instagram</span></a></li>
+                <li><a href="#" class="icon brands fa-github"><span class="label">Github</span></a></li>
+                <li><a href="#" class="icon brands fa-dribbble"><span class="label">Dribbble</span></a></li>
+                <li><a href="#" class="icon brands fa-google-plus"><span class="label">Google+</span></a></li>
+            </ul>
+            <ul class="copyright">
+                <li>&copy; 2023 Telewire Analytics, Inc. All rights reserved.</li>
+            </ul>
+        </footer>
+    </div>
+    
+    <!-- Scripts -->
+    <script src="{{ url_for('static',filename='assets/js/jquery.min.js')}}"></script>
+    <script src="{{ url_for('static',filename='assets/js/jquery.dropotron.min.js')}}"></script>
+    <script src="{{ url_for('static',filename='assets/js/jquery.scrollex.min.js')}}"></script>
+    <script src="{{ url_for('static',filename='assets/js/browser.min.js')}}"></script>
+    <script src="{{ url_for('static',filename='assets/js/breakpoints.min.js')}}"></script>
+    <script src="{{ url_for('static',filename='assets/js/util.js')}}"></script>
+    <script src="{{ url_for('static',filename='assets/js/main.js')}}"></script>
+        
+</body>
+
+</html>

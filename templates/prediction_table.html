@@ -1,0 +1,240 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <title>Telewire Analytics</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="stylesheet" href="{{ url_for('static',filename='assets/css/main.css')}}" />
+</head>
+
+<body class="is-preload">
+    <div id="page-wrapper">
+
+        <!-- Header -->
+        <header id="header">
+            <h1><a href="{{ url_for('index') }}">Telewire Analytics - Connetwork</a></h1>
+            <nav id="nav">
+                <ul>
+                    <li><a href="{{ url_for('dashboard') }}">Home</a></li>
+                    <li><a href="{{ url_for('prediction_table') }}">Predict Anomaly</a></li>
+                    <li><a href="{{ url_for('upload_csv') }}" class="button">Add Dataset</a></li>
+                    <li><a href="{{ url_for('login') }}">Logout</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <!-- Main -->
+        <section id="main" class="container">
+            <header>
+                <h2>Telewire Analytics Anomaly Prediction</h2>
+                <p>Welcome to the prediction page of Telewire Analytics- our anomaly prediction system that helps you detect and anticipate potential anomalies in your data.</p>
+            </header>
+            <div class="row">
+                <div class="col-12">
+
+                    <!-- Table -->
+                    <section class="box">
+                        <h3>Anomaly Prediction</h3>
+
+                        <h4>Please fill in the following information to receive a prediction based on your data:</h4>
+                        <div class="table-wrapper">
+                            <form method="post" action="/prediction_table">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th><b>Name</b></th>
+                                            <th><b>Description</b></th>
+                                            <th><b>Fill in Values</b></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><b>Cell Name:</b></td>
+                                            <td><b>Select the name of the cell you want to analyze.</b></td>
+                                            <td>
+                                                <select id="cellnames-dropdown" name="CellName" type="text" required>
+                                                    <option value="">Select a CellName</option>
+                                                    <option value="10ALTE"><strong>10ALTE</strong></option>
+                                                    <option value="10BLTE"><strong>10BLTE</strong></option>
+                                                    <option value="10CLTE"><strong>10CLTE</strong></option>
+                                                    <option value="1ALTE"><strong>1ALTE</strong></option>
+                                                    <option value="1BLTE"><strong>1BLTE</strong></option>
+                                                    <option value="1CLTE"><strong>1CLTE</strong></option>
+                                                    <option value="2ALTE"><strong>2ALTE</strong></option>
+                                                    <option value="3ALTE"><strong>3ALTE</strong></option>
+                                                    <option value="3BLTE"><strong>3BLTE</strong></option>
+                                                    <option value="3CLTE"><strong>3CLTE</strong></option>
+                                                    <option value="4ALTE"><strong>4ALTE</strong></option>
+                                                    <option value="4BLTE"><strong>4BLTE</strong></option>
+                                                    <option value="4CLTE"><strong>4CLTE</strong></option>
+                                                    <option value="5ALTE"><strong>5ALTE</strong></option>
+                                                    <option value="5BLTE"><strong>5BLTE</strong></option>
+                                                    <option value="5CLTE"><strong>5CLTE</strong></option>
+                                                    <option value="6ALTE"><strong>6ALTE</strong></option>
+                                                    <option value="6BLTE"><strong>6BLTE</strong></option>
+                                                    <option value="6CLTE"><strong>6CLTE</strong></option>
+                                                    <option value="6ULTE"><strong>6ULTE</strong></option>
+                                                    <option value="6VLTE"><strong>6VLTE</strong></option>
+                                                    <option value="6WLTE"><strong>6WLTE</strong></option>
+                                                    <option value="7ALTE"><strong>7ALTE</strong></option>
+                                                    <option value="7BLTE"><strong>7BLTE</strong></option>
+                                                    <option value="7CLTE"><strong>7CLTE</strong></option>
+                                                    <option value="7ULTE"><strong>7ULTE</strong></option>
+                                                    <option value="7VLTE"><strong>7VLTE</strong></option>
+                                                    <option value="7WLTE"><strong>7WLTE</strong></option>
+                                                    <option value="8ALTE"><strong>8ALTE</strong></option>
+                                                    <option value="8BLTE"><strong>8BLTE</strong></option>
+                                                    <option value="8CLTE"><strong>8CLTE</strong></option>
+                                                    <option value="9ALTE"><strong>9ALTE</strong></option>
+                                                    <option value="9BLTE"><strong>9BLTE</strong></option>
+                                                </select>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><b>Time:</b></td>
+                                            <td><b>Enter the timestamp for which you want to analyze data.</b></td>
+                                            <td>
+                                                <label for="time"><b>Time:</b></label>
+                                                <input type="time" id="time" name="Time" step="900" onblur="roundToNearest15Min(this)" required>
+                                                <script>
+                                                    function roundToNearest15Min(input) {
+                                                        var time = input.value.split(":");
+                                                        var hours = parseInt(time[0]);
+                                                        var minutes = parseInt(time[1]);
+
+                                                        // Round off minutes to the nearest 15-minute interval
+                                                        var roundedMinutes = Math.round(minutes / 15) * 15;
+                                                        if (roundedMinutes == 60) {
+                                                            // If the rounded minutes is 60, increment the hours and set the minutes to 0
+                                                            hours++;
+                                                            roundedMinutes = 0;
+                                                        }
+
+                                                        // Format the time as a string and set it as the input value
+                                                        var formattedTime = ('0' + hours).slice(-2) + ':' + ('0' + roundedMinutes).slice(-2);
+                                                        input.value = formattedTime;
+                                                    }
+
+                                                </script>
+                                            </td>
+
+                                            <!-- <td><b>Enter the time for which you want to analyze data.</b></td>
+													<td><input type="number" name="Time" id="Time" required></td> -->
+                                        </tr>
+                                        <tr>
+                                            <td><b>PRB Usage UL:</b></td>
+                                            <td><b>Enter the PRB Usage UL value.</b></td>
+                                            <td><input type="number" name="PRBUsageUL" id="PRBUsageUL" min="0" step="0.001" placeholder="Enter a value (e.g. 11.642)" required>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><b>PRB Usage DL:</b></td>
+                                            <td><b>Enter the PRB Usage DL value.</b></td>
+                                            <td><input type="number" name="PRBUsageDL" id="PRBUsageDL" min="0" step="0.001" placeholder="Enter a value (e.g. 1.393)" required></td>
+                                        </tr>
+                                        <tr>
+                                            <td><b>Mean Throughput DL:</b></td>
+                                            <td><b>Enter the mean throughput DL value.</b></td>
+                                            <td><input type="number" name="meanThr_DL" id="meanThr_DL" min="0" step="0.001" placeholder="Enter a value (e.g. 0.37)" required></td>
+                                        </tr>
+                                        <tr>
+                                            <td><b>Mean Throughput UL:</b></td>
+                                            <td><b>Enter the mean throughput UL value.</b></td>
+                                            <td><input type="number" name="meanThr_UL" id="meanThr_UL" min="0" step="0.001" placeholder="Enter a value (e.g. 0.041)" required></td>
+                                        </tr>
+                                        <tr>
+                                            <td><b>Max Throughput DL:</b></td>
+                                            <td><b>Enter the maximum throughput DL value.</b></td>
+                                            <td><input type="number" name="maxThr_DL" id="maxThr_DL" min="0" step="0.001" placeholder="Enter a value (e.g. 15.655)" required></td>
+                                        </tr>
+                                        <tr>Enter a value (e.g.
+                                            <td><b>Max Throughput UL:</b></td>
+                                            <td><b>Enter the maximum throughput UL value.</b></td>
+                                            <td><input type="number" name="maxThr_UL" id="maxThr_UL" min="0" step="0.001" placeholder="Enter a value (e.g. 0.644)" required></td>
+                                        </tr>
+                                        <tr>
+                                            <td><b>Mean UE DL:</b></td>
+                                            <td><b>Enter the mean UE DL value.</b></td>
+                                            <td><input type="number" name="meanUE_DL" id="meanUE_DL" min="0" step="0.001" placeholder="Enter a value (e.g. 1.114)" required></td>
+                                        </tr>
+                                        <tr>
+                                            <td><b>Mean UE UL:</b></td>
+                                            <td><b>Enter the mean UE UL value.</b></td>
+                                            <td><input type="number" name="meanUE_UL" id="meanUE_UL" min="0" step="0.001" placeholder="Enter a value (e.g. 1.025)" required></td>
+                                        </tr>
+                                        <tr>
+                                            <td><b>Max UE DL:</b></td>
+                                            <td><b>Enter the maximum UE DL value.</b></td>
+                                            <td><input type="number" name="maxUE_DL" id="maxUE_DL" min="0" step="0.001" placeholder="Enter a value (e.g. 4)" required></td>
+
+                                        </tr>
+                                        <tr>
+                                            <td><b>Max UE UL:</b></td>
+                                            <td><b>Enter the maximum UE UL value.</b></td>
+                                            <td><input type="number" name="maxUE_UL" id="maxUE_UL" min="0" step="0.001" placeholder="Enter a value (e.g. 3)" required></td>
+                                        </tr>
+                                        <tr>
+                                            <td><b>Max UE UL/DL:</b></td>
+                                            <td><b>Enter the maximum UE UL/DL value.</b></td>
+                                            <td><input type="number" name="maxUE_UL+DL" id="maxUE_UL+DL" min="0" step="0.001" placeholder="Enter a value (e.g. 7)" required></td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="3" align="right">
+                                                <input type="submit" value="Predict Anomaly Detection" style="padding: unset; font-size: 17px; padding: 0 10px; !imporatant">
+                                            </td>
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                            </form>
+
+                        </div>
+                    </section>
+
+                </div>
+            </div>
+
+        </section>
+
+        <!-- Footer -->
+        <footer id="footer" style="padding: 2em 0 1em 0 !important;">
+            <ul class="icons">
+                <li><a href="#" class="icon brands fa-twitter"><span class="label">Twitter</span></a></li>
+                <li><a href="#" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a></li>
+                <li><a href="#" class="icon brands fa-instagram"><span class="label">Instagram</span></a></li>
+                <li><a href="#" class="icon brands fa-github"><span class="label">Github</span></a></li>
+                <li><a href="#" class="icon brands fa-dribbble"><span class="label">Dribbble</span></a></li>
+                <li><a href="#" class="icon brands fa-google-plus"><span class="label">Google+</span></a></li>
+            </ul>
+            <ul class="copyright">
+                <li>&copy; 2023 Telewire Analytics, Inc. All rights reserved.</li>
+            </ul>
+        </footer>
+
+    </div>
+
+    <!-- Scripts -->
+    <script src="{{ url_for('static',filename='assets/js/jquery.min.js')}}"></script>
+    <script src="{{ url_for('static',filename='assets/js/jquery.dropotron.min.js')}}"></script>
+    <script src="{{ url_for('static',filename='assets/js/jquery.scrollex.min.js')}}"></script>
+    <script src="{{ url_for('static',filename='assets/js/browser.min.js')}}"></script>
+    <script src="{{ url_for('static',filename='assets/js/breakpoints.min.js')}}"></script>
+    <script src="{{ url_for('static',filename='assets/js/util.js')}}"></script>
+    <script src="{{ url_for('static',filename='assets/js/main.js')}}"></script>
+
+</body>
+
+</html>
+
+
+
+
+<!-- Welcome to the prediction page of Telewire - our anomaly prediction system that helps you detect and anticipate potential anomalies in your data. With Telewire, you can gain insights into potential issues before they occur and take proactive measures to mitigate their impact. Our advanced machine learning algorithms analyze your data in real-time to detect abnormal behavior and predict potential anomalies, allowing you to stay ahead of the curve and keep your operations running smoothly. Explore our predictions and stay informed about your data with Telewire. -->
+
+<!-- <tr>
+		<td>Timestamp:</td>
+		<td>Enter the timestamp for which you want to analyze data.</td>
+		<td><input type="number" name="Timestamp" id="Timestamp" required></td>
+	</tr> -->
